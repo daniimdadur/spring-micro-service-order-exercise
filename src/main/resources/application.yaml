@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: "spring-micro-service-order-exercise"
+  datasource:
+    url: jdbc:mysql://localhost:3306/micro_service_order
+    username: root
+    password: P@ssW0rd32!
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        jdbc:
+          time_zone: Asia/Jakarta
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      lettuce:
+        pool:
+          max-idle: 8
+  cache:
+    type: redis
+    redis:
+      cache-null-values: false
+server:
+  port: 8082
