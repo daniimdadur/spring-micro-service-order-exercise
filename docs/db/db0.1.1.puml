@@ -1,0 +1,96 @@
+@startuml
+' Konfigurasi tampilan agar lebih bersih
+skinparam roundcorner 8
+skinparam linetype ortho
+skinparam shadowing false
+skinparam class {
+    BackgroundColor White
+    ArrowColor #73726c
+    BorderColor #534AB7
+}
+
+entity "CUSTOMER" as customer {
+    * id : Long <<PK>>
+    --
+    name : String
+    email : String
+    phone : String
+    address : String
+    createdAt : LocalDateTime
+    updatedAt : LocalDateTime
+}
+
+entity "CATEGORY" as category {
+    * id : Long <<PK>>
+    --
+    name : String
+    description : String
+    createdAt : LocalDateTime
+}
+
+entity "PRODUCT" as product {
+    * id : Long <<PK>>
+    --
+    name : String
+    description : String
+    price : BigDecimal
+    stock : Integer
+    sku : String
+    categoryId : Long <<FK>>
+    createdAt : LocalDateTime
+    updatedAt : LocalDateTime
+}
+
+entity "ORDER" as order {
+    * id : Long <<PK>>
+    --
+    orderNumber : String
+    customerId : Long <<FK>>
+    orderDate : LocalDateTime
+    status : Enum
+    paymentStatus : Enum
+    paymentId : String
+    totalAmount : BigDecimal
+    paymentMethod : Enum
+    paidAt : LocalDateTime
+    notes : String
+    createdAt : LocalDateTime
+}
+
+entity "ORDER_DETAILS" as order_details {
+    * id : Long <<PK>>
+    --
+    orderId : Long <<FK>>
+    productId : Long <<FK>>
+    quantity : Integer
+    unitPrice : BigDecimal
+    subtotal : BigDecimal
+}
+
+entity "PAYMENT" as payment {
+    * id : Long <<PK>>
+    --
+    paymentNumber : String
+    orderId : Long
+    orderNumber : String
+    customerId : Long
+    amount : BigDecimal
+    paymentMethod : Enum
+    status : Enum
+    referenceNumber : String
+    idempotencyKey : String
+    paidAt : LocalDateTime
+    expiredAt : LocalDateTime
+    notes : String
+    createdAt : LocalDateTime
+    updatedAt : LocalDateTime
+}
+
+' Relasi antar entitas
+customer ||--o{ order : "places"
+category ||--o{ product : "contains"
+order ||--|{ order_details : "has"
+product ||--o{ order_details : "included in"
+order ||--o| payment : "paid via"
+
+@enduml

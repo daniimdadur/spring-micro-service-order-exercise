@@ -2,9 +2,14 @@ package com.gentara.order.master.model.entity;
 
 import com.gentara.order.base.BaseAuditableSoftDelete;
 import com.gentara.order.enums.PaymentStatus;
+import com.gentara.order.enums.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,13 +25,39 @@ public class OrderEntity extends BaseAuditableSoftDelete {
     @Column
     private String id;
 
-    @Column(name = "product_name")
-    private String productName;
+    @Column(name = "order_number")
+    private String orderNumber;
 
-    @Column(name = "amount")
-    private Integer amount;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private CustomerEntity customer;
+
+    @Column(name = "order_date")
+    private LocalDateTime orderDate;
 
     @Column(name = "status")
+    private String status;
+
+    @Column(name = "payment_status")
     @Enumerated(EnumType.STRING)
-    private PaymentStatus status;
+    private PaymentStatus paymentStatus;
+
+    @Column(name = "payment_id")
+    private String paymentId;
+
+    @Column(name = "total_amount")
+    private BigDecimal totalAmount;
+
+    @Column(name = "payment_method")
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+
+    @Column(name = "paid_at")
+    private LocalDateTime paidAt;
+
+    @Column
+    private String notes;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<OrderDetailsEntity> orderDetails;
 }

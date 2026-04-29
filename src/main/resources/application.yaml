@@ -27,5 +27,11 @@ spring:
 client:
   payment-service:
     url: http://localhost:8081/v1/api/payments
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+  api-docs:
+    path: /api-docs
 server:
   port: 8082

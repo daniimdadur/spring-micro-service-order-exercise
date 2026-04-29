@@ -12,4 +12,6 @@ public interface OrderService {
     Optional<OrderRes> create(OrderReq orderReq);
     Optional<OrderRes> update(String id, OrderReq orderReq);
     Optional<OrderRes> delete(String id);
+    List<OrderRes> getOrdersByCustomerId(String customerId);
+    List<OrderRes> getOrdersByStatus(String status);
 }
