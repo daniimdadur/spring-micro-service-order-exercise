@@ -38,12 +38,12 @@ public class OrderEntity extends BaseAuditableSoftDelete {
     @Column(name = "status")
     private String status;
 
+    @Column(name = "idempotency_key", unique = true)
+    private String idempotencyKey;
+
     @Column(name = "payment_status")
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
-
-    @Column(name = "payment_id")
-    private String paymentId;
 
     @Column(name = "total_amount")
     private BigDecimal totalAmount;

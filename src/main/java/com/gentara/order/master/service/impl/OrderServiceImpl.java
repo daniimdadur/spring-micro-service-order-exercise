@@ -1,7 +1,6 @@
 package com.gentara.order.master.service.impl;
 
 import com.gentara.order.enums.PaymentStatus;
-import com.gentara.order.master.client.PaymentClient;
 import com.gentara.order.master.model.entity.OrderEntity;
 import com.gentara.order.master.model.request.OrderReq;
 import com.gentara.order.master.model.response.OrderRes;
@@ -20,7 +19,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     private final OrderRepo orderRepo;
-    private final PaymentClient paymentClient;
     private final ServiceMapper serviceMapper;
 
     @Override
@@ -94,7 +92,7 @@ public class OrderServiceImpl implements OrderService {
                 .orderDate(entity.getOrderDate())
                 .status(entity.getStatus())
                 .paymentStatus(entity.getPaymentStatus())
-                .paymentId(entity.getPaymentId())
+                .idempotencyKey(entity.getIdempotencyKey())
                 .totalAmount(entity.getTotalAmount())
                 .paymentMethod(entity.getPaymentMethod())
                 .paidAt(entity.getPaidAt())
@@ -111,7 +109,7 @@ public class OrderServiceImpl implements OrderService {
                 .orderDate(request.getOrderDate())
                 .status(request.getStatus())
                 .paymentStatus(request.getPaymentStatus() != null ? request.getPaymentStatus() : PaymentStatus.UNPAID)
-                .paymentId(request.getPaymentId())
+                .idempotencyKey(CommonUtil.getUUID())
                 .totalAmount(request.getTotalAmount())
                 .paymentMethod(request.getPaymentMethod())
                 .paidAt(request.getPaidAt())
@@ -125,7 +123,6 @@ public class OrderServiceImpl implements OrderService {
         entity.setOrderDate(request.getOrderDate());
         entity.setStatus(request.getStatus());
         entity.setPaymentStatus(request.getPaymentStatus());
-        entity.setPaymentId(request.getPaymentId());
         entity.setTotalAmount(request.getTotalAmount());
         entity.setPaymentMethod(request.getPaymentMethod());
         entity.setPaidAt(request.getPaidAt());

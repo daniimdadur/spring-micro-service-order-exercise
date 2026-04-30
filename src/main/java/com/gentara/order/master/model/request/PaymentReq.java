@@ -1,25 +1,22 @@
 package com.gentara.order.master.model.request;
 
-import com.gentara.order.enums.PaymentStatus;
 import com.gentara.order.enums.PaymentMethod;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class OrderReq {
+public class PaymentReq {
+    private String orderId;
     private String orderNumber;
     private String customerId;
-    private LocalDateTime orderDate;
-    private String status;
-    private PaymentStatus paymentStatus;
-    private BigDecimal totalAmount;
+    private BigDecimal amount;
     private PaymentMethod paymentMethod;
-    private LocalDateTime paidAt;
+    private String idempotencyKey;
+    private String callBackUrl;
     private String notes;
 }

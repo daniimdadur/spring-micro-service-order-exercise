@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/api/orders/customer")
+@RequestMapping("/v1/api/customer")
 public class CustomerControllerApi extends BaseController<CustomerRes> {
     private final CustomerService customerService;
 

@@ -1,9 +1,15 @@
 package com.gentara.order.master.model.response;
 
+import com.gentara.order.enums.PaymentMethod;
+import com.gentara.order.enums.PaymentStatus;
+import com.gentara.order.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -11,4 +17,16 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PaymentRes {
     private String id;
+    private String paymentNumber;
+    private String orderId;
+    private String orderNumber;
+    private String customerId;
+    private BigDecimal amount;
+    private PaymentMethod paymentMethod;
+    private Status status;
+    private String notes;
+    private String referenceNumber;
+    private LocalDateTime paidAt;
+    private LocalDateTime expiredAt;
+    private LocalDateTime createdAt;
 }

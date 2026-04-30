@@ -19,7 +19,7 @@ public class OrderRes {
     private LocalDateTime orderDate;
     private String status;
     private PaymentStatus paymentStatus;
-    private String paymentId;
+    private String idempotencyKey;
     private BigDecimal totalAmount;
     private PaymentMethod paymentMethod;
     private LocalDateTime paidAt;
