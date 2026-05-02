@@ -13,4 +13,6 @@ public interface ProductService {
     Optional<ProductRes> update(String id, ProductReq productReq);
     Optional<ProductRes> delete(String id);
     List<ProductRes> getProductsByCategoryId(String categoryId);
+    Optional<ProductRes> getProductBySku(String sku);
+    Optional<ProductRes> getProductByName(String name);
 }

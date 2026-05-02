@@ -39,4 +39,14 @@ public class CustomerControllerApi extends BaseController<CustomerRes> {
     public ResponseEntity<Response> delete(@PathVariable String id) {
         return super.getResponse(customerService.delete(id));
     }
+
+    @GetMapping("/email")
+    public ResponseEntity<Response> getByEmail(@RequestParam String email) {
+        return super.getResponse(customerService.getByEmail(email));
+    }
+
+    @GetMapping("/name")
+    public ResponseEntity<Response> getByName(@RequestParam String name) {
+        return super.getResponse(customerService.getByName(name));
+    }
 }

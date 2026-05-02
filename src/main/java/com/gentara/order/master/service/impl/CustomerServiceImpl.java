@@ -68,6 +68,16 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
+    @Override
+    public Optional<CustomerRes> getByEmail(String email) {
+        return Optional.of(serviceMapper.getCustomerEntityByEmail(email)).map(this::mapEntityToResponse);
+    }
+
+    @Override
+    public Optional<CustomerRes> getByName(String name) {
+        return Optional.of(serviceMapper.getCustomerEntityByName(name)).map(this::mapEntityToResponse);
+    }
+
     private CustomerRes mapEntityToResponse(CustomerEntity entity) {
         return CustomerRes.builder()
                 .id(entity.getId())

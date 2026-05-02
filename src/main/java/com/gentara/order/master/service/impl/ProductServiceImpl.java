@@ -70,10 +70,22 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductRes> getProductsByCategoryId(String categoryId) {
-        return productRepo.findAll().stream()
-                .filter(product -> product.getCategory() != null && product.getCategory().getId().equals(categoryId))
+        return productRepo.findByCategory_id(categoryId)
+                .stream()
                 .map(this::mapEntityToResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<ProductRes> getProductBySku(String sku) {
+        return Optional.of(serviceMapper.getProductEntityBySku(sku))
+                .map(this::mapEntityToResponse);
+    }
+
+    @Override
+    public Optional<ProductRes> getProductByName(String name) {
+        return Optional.of(serviceMapper.getProductEntityByName(name))
+                .map(this::mapEntityToResponse);
     }
 
     private ProductRes mapEntityToResponse(ProductEntity entity) {

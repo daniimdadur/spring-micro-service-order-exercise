@@ -12,4 +12,6 @@ public interface CustomerService {
     Optional<CustomerRes> create(CustomerReq customerReq);
     Optional<CustomerRes> update(String id, CustomerReq customerReq);
     Optional<CustomerRes> delete(String id);
+    Optional<CustomerRes> getByEmail(String email);
+    Optional<CustomerRes> getByName(String name);
 }

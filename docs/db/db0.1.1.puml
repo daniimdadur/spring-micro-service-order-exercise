@@ -1,8 +1,9 @@
 @startuml
-' Konfigurasi tampilan agar lebih bersih
+
 skinparam roundcorner 8
 skinparam linetype ortho
 skinparam shadowing false
+
 skinparam class {
     BackgroundColor White
     ArrowColor #73726c
@@ -86,7 +87,6 @@ entity "PAYMENT" as payment {
     updatedAt : LocalDateTime
 }
 
-' Relasi antar entitas
 customer ||--o{ order : "places"
 category ||--o{ product : "contains"
 order ||--|{ order_details : "has"
