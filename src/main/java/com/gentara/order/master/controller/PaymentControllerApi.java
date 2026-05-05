@@ -14,8 +14,4 @@ import org.springframework.web.bind.annotation.*;
 public class PaymentControllerApi extends BaseController<PaymentRes> {
     private final PaymentService paymentService;
 
-    @PostMapping("/{orderId}")
-    public ResponseEntity<Response> pay(@PathVariable String orderId) {
-        return super.getResponse(paymentService.pay(orderId));
-    }
 }

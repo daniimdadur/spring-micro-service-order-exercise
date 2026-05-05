@@ -3,6 +3,7 @@ package com.gentara.order.master.model.entity;
 import com.gentara.order.base.BaseAuditableSoftDelete;
 import com.gentara.order.enums.PaymentStatus;
 import com.gentara.order.enums.PaymentMethod;
+import com.gentara.order.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -36,7 +37,8 @@ public class OrderEntity extends BaseAuditableSoftDelete {
     private LocalDateTime orderDate;
 
     @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
 
     @Column(name = "idempotency_key", unique = true)
     private String idempotencyKey;
@@ -52,11 +54,14 @@ public class OrderEntity extends BaseAuditableSoftDelete {
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
+    @Column(name = "payment_number")
+    private String paymentNumber;
+
+    @Column(name = "expired_at")
+    private LocalDateTime expiredAt;
+
     @Column(name = "paid_at")
     private LocalDateTime paidAt;
-
-    @Column
-    private String notes;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderDetailsEntity> orderDetails;

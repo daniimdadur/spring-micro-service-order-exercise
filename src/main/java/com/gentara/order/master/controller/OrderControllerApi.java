@@ -2,6 +2,8 @@ package com.gentara.order.master.controller;
 
 import com.gentara.order.base.BaseController;
 import com.gentara.order.base.Response;
+import com.gentara.order.enums.OrderStatus;
+import com.gentara.order.enums.PaymentStatus;
 import com.gentara.order.master.model.request.OrderReq;
 import com.gentara.order.master.model.response.OrderRes;
 import com.gentara.order.master.service.OrderService;
@@ -30,11 +32,6 @@ public class OrderControllerApi extends BaseController<OrderRes> {
         return super.getResponse(orderService.create(orderReq));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Response> update(@PathVariable String id, @RequestBody OrderReq orderReq) {
-        return super.getResponse(orderService.update(id, orderReq));
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Response> delete(@PathVariable String id) {
         return super.getResponse(orderService.delete(id));
@@ -45,8 +42,23 @@ public class OrderControllerApi extends BaseController<OrderRes> {
         return super.getResponse(orderService.getOrdersByCustomerId(customerId));
     }
 
-    @GetMapping("/status/{status}")
-    public ResponseEntity<Response> getOrdersByStatus(@PathVariable String status) {
-        return super.getResponse(orderService.getOrdersByStatus(status));
+    @GetMapping("/status/{orderStatus}")
+    public ResponseEntity<Response> getOrdersByStatus(@PathVariable OrderStatus orderStatus) {
+        return super.getResponse(orderService.getOrdersByStatus(orderStatus));
+    }
+
+    @GetMapping("/payment-status/{paymentStatus}")
+    public ResponseEntity<Response> getOrdersByPaymentStatus(@PathVariable PaymentStatus paymentStatus) {
+        return super.getResponse(orderService.getOrdersByPaymentStatus(paymentStatus));
+    }
+//
+//    @PutMapping("/{id}/status")
+//    public ResponseEntity<Response> updateStatus(@PathVariable String id, @RequestParam OrderStatus orderStatus) {
+//        return super.getResponse(orderService.updateStatus(id, orderStatus));
+//    }
+
+    @PostMapping("/{id}/cancel")
+    public ResponseEntity<Response> cancelOrder(@PathVariable String id) {
+        return super.getResponse(orderService.cancelOrder(id));
     }
 }

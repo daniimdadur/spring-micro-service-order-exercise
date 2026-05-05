@@ -43,6 +43,11 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.CONFLICT, ex.getMessage());
     }
 
+    @ExceptionHandler(PaymentServiceException.class)
+    public ResponseEntity<ResponseError> handlePaymentServiceException(PaymentServiceException ex) {
+        return buildResponse(HttpStatus.PAYMENT_REQUIRED, ex.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseError> handleException(Exception ex) {
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "something wrong");

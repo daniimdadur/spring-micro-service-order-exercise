@@ -11,7 +11,7 @@ skinparam class {
 }
 
 entity "CUSTOMER" as customer {
-    * id : Long <<PK>>
+    * id : String <<PK>>
     --
     name : String
     email : String
@@ -22,7 +22,7 @@ entity "CUSTOMER" as customer {
 }
 
 entity "CATEGORY" as category {
-    * id : Long <<PK>>
+    * id : String <<PK>>
     --
     name : String
     description : String
@@ -30,54 +30,55 @@ entity "CATEGORY" as category {
 }
 
 entity "PRODUCT" as product {
-    * id : Long <<PK>>
+    * id : String <<PK>>
     --
     name : String
     description : String
     price : BigDecimal
     stock : Integer
     sku : String
-    categoryId : Long <<FK>>
+    categoryId : String <<FK>>
     createdAt : LocalDateTime
     updatedAt : LocalDateTime
 }
 
 entity "ORDER" as order {
-    * id : Long <<PK>>
+    * id : String <<PK>>
     --
     orderNumber : String
-    customerId : Long <<FK>>
+    customerId : String <<FK>>
     orderDate : LocalDateTime
-    status : Enum
-    paymentStatus : Enum
+    orderStatus : Enum<CREATED, PROCESSING, COMPLETED, CANCELLED>
+    paymentStatus : Enum<PENDING, PAID, FAILED, EXPIRED>
     paymentId : String
     totalAmount : BigDecimal
-    paymentMethod : Enum
+    paymentMethod : Enum<CASH, QRIS, TRANSFER, OTHER>
     paidAt : LocalDateTime
     notes : String
+    idempotencyKey : String
     createdAt : LocalDateTime
 }
 
 entity "ORDER_DETAILS" as order_details {
-    * id : Long <<PK>>
+    * id : String <<PK>>
     --
-    orderId : Long <<FK>>
-    productId : Long <<FK>>
+    orderId : String <<FK>>
+    productId : String <<FK>>
     quantity : Integer
     unitPrice : BigDecimal
     subtotal : BigDecimal
 }
 
 entity "PAYMENT" as payment {
-    * id : Long <<PK>>
+    * id : String <<PK>>
     --
     paymentNumber : String
-    orderId : Long
+    orderId : String
     orderNumber : String
-    customerId : Long
+    customerId : String
     amount : BigDecimal
-    paymentMethod : Enum
-    status : Enum
+    paymentMethod : Enum<CASH, QRIS, TRANSFER, OTHER>
+    paymentStatus : Enum<PENDING, PAID, FAILED, EXPIRED>
     referenceNumber : String
     idempotencyKey : String
     paidAt : LocalDateTime

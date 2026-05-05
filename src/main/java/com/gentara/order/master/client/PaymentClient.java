@@ -9,11 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.Map;
-
 @FeignClient(name = "payment-service", url = "${client.payment-service.url}")
 public interface PaymentClient {
 
     @PostMapping("/payment")
-    ResponseEntity<@NonNull Response<PaymentRes>> pay(@RequestBody PaymentReq paymentReq);
+    ResponseEntity<@NonNull Response<PaymentRes>> payment(@RequestBody PaymentReq paymentReq);
 }

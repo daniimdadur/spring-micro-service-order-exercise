@@ -1,5 +1,6 @@
 package com.gentara.order.config;
 
+import com.gentara.order.enums.OrderStatus;
 import com.gentara.order.master.model.entity.*;
 import com.gentara.order.master.repository.*;
 import com.gentara.order.enums.PaymentStatus;
@@ -117,37 +118,34 @@ public class DataInitializer implements CommandLineRunner {
                 .orderNumber("ORD-001")
                 .customer(customers.get(0))
                 .orderDate(LocalDateTime.now())
-                .status("PENDING")
-                .paymentStatus(PaymentStatus.UNPAID)
+                .orderStatus(OrderStatus.PROCESSING)
+                .paymentStatus(PaymentStatus.PENDING)
                 .totalAmount(new BigDecimal("2499.99"))
                 .paymentMethod(PaymentMethod.TRANSFER)
-                .notes("Urgent delivery requested")
                 .build(),
             OrderEntity.builder()
                 .id(CommonUtil.getUUID())
                 .orderNumber("ORD-002")
                 .customer(customers.get(1))
                 .orderDate(LocalDateTime.now())
-                .status("CONFIRMED")
+                .orderStatus(OrderStatus.COMPLETED)
                 .paymentStatus(PaymentStatus.PAID)
                 .idempotencyKey("PAY-12345")
                 .totalAmount(new BigDecimal("1029.98"))
                 .paymentMethod(PaymentMethod.TRANSFER)
                 .paidAt(LocalDateTime.now())
-                .notes("Payment confirmed via bank transfer")
                 .build(),
             OrderEntity.builder()
                 .id(CommonUtil.getUUID())
                 .orderNumber("ORD-003")
                 .customer(customers.get(2))
                 .orderDate(LocalDateTime.now())
-                .status("SHIPPED")
-                .paymentStatus(PaymentStatus.PARTIAL)
+                .orderStatus(OrderStatus.CANCELLED)
+                .paymentStatus(PaymentStatus.EXPIRED)
                 .idempotencyKey("PAY-67890")
                 .totalAmount(new BigDecimal("59.98"))
                 .paymentMethod(PaymentMethod.OTHER)
                 .paidAt(LocalDateTime.now())
-                .notes("Order shipped to Bandung")
                 .build()
         );
         orderRepo.saveAll(orders);

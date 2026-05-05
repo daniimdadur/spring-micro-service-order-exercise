@@ -17,6 +17,4 @@ public class PaymentReq {
     private BigDecimal amount;
     private PaymentMethod paymentMethod;
     private String idempotencyKey;
-    private String callBackUrl;
-    private String notes;
 }

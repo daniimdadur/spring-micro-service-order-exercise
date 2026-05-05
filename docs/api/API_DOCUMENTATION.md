@@ -34,7 +34,7 @@ GET /v1/api/customer
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": [
     {
@@ -65,7 +65,7 @@ GET /v1/api/customer/abc123def456
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": {
     "id": "abc123def456",
@@ -82,7 +82,7 @@ GET /v1/api/customer/abc123def456
 **Response (Not Found):**
 ```json
 {
-  "status": 404,
+  "orderStatus": 404,
   "message": "Not Found",
   "data": null
 }
@@ -111,7 +111,7 @@ Content-Type: application/json
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": {
     "id": "xyz789abc123",
@@ -148,7 +148,7 @@ Content-Type: application/json
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": {
     "id": "abc123def456",
@@ -177,7 +177,7 @@ DELETE /v1/api/customer/abc123def456
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": {
     "id": "abc123def456",
@@ -208,7 +208,7 @@ GET /v1/api/category
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": [
     {
@@ -242,7 +242,7 @@ GET /v1/api/category/cat001
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": {
     "id": "cat001",
@@ -274,7 +274,7 @@ Content-Type: application/json
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": {
     "id": "cat003",
@@ -306,7 +306,7 @@ Content-Type: application/json
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": {
     "id": "cat001",
@@ -332,7 +332,7 @@ DELETE /v1/api/category/cat003
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": {
     "id": "cat003",
@@ -360,7 +360,7 @@ GET /v1/api/product
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": [
     {
@@ -393,7 +393,7 @@ GET /v1/api/product/prod001
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": {
     "id": "prod001",
@@ -434,7 +434,7 @@ Content-Type: application/json
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": {
     "id": "prod002",
@@ -475,7 +475,7 @@ Content-Type: application/json
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": {
     "id": "prod001",
@@ -506,7 +506,7 @@ DELETE /v1/api/product/prod002
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": {
     "id": "prod002",
@@ -537,7 +537,7 @@ GET /v1/api/product/category/cat001
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": [
     {
@@ -572,7 +572,7 @@ GET /v1/api/order
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": [
     {
@@ -580,7 +580,7 @@ GET /v1/api/order
       "orderNumber": "ORD-001",
       "customerId": "abc123def456",
       "orderDate": "2026-04-29T12:00:00",
-      "status": "PENDING",
+      "orderStatus": "PENDING",
       "paymentStatus": "UNPAID",
       "paymentId": null,
       "totalAmount": 2499.99,
@@ -608,14 +608,14 @@ GET /v1/api/order/ord001
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": {
     "id": "ord001",
     "orderNumber": "ORD-001",
     "customerId": "abc123def456",
     "orderDate": "2026-04-29T12:00:00",
-    "status": "PENDING",
+    "orderStatus": "PENDING",
     "paymentStatus": "UNPAID",
     "paymentId": null,
     "totalAmount": 2499.99,
@@ -643,7 +643,7 @@ Content-Type: application/json
   "orderNumber": "ORD-002",
   "customerId": "abc123def456",
   "orderDate": "2026-04-29T13:00:00",
-  "status": "PENDING",
+  "orderStatus": "PENDING",
   "paymentStatus": "UNPAID",
   "totalAmount": 1999.99,
   "paymentMethod": "TRANSFER",
@@ -654,14 +654,14 @@ Content-Type: application/json
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": {
     "id": "ord002",
     "orderNumber": "ORD-002",
     "customerId": "abc123def456",
     "orderDate": "2026-04-29T13:00:00",
-    "status": "PENDING",
+    "orderStatus": "PENDING",
     "paymentStatus": "UNPAID",
     "paymentId": null,
     "totalAmount": 1999.99,
@@ -689,7 +689,7 @@ Content-Type: application/json
   "orderNumber": "ORD-001",
   "customerId": "abc123def456",
   "orderDate": "2026-04-29T12:00:00",
-  "status": "CONFIRMED",
+  "orderStatus": "CONFIRMED",
   "paymentStatus": "PAID",
   "paymentId": "PAY-12345",
   "totalAmount": 2499.99,
@@ -702,14 +702,14 @@ Content-Type: application/json
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": {
     "id": "ord001",
     "orderNumber": "ORD-001",
     "customerId": "abc123def456",
     "orderDate": "2026-04-29T12:00:00",
-    "status": "CONFIRMED",
+    "orderStatus": "CONFIRMED",
     "paymentStatus": "PAID",
     "paymentId": "PAY-12345",
     "totalAmount": 2499.99,
@@ -736,14 +736,14 @@ DELETE /v1/api/order/ord002
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": {
     "id": "ord002",
     "orderNumber": "ORD-002",
     "customerId": "abc123def456",
     "orderDate": "2026-04-29T13:00:00",
-    "status": "PENDING",
+    "orderStatus": "PENDING",
     "paymentStatus": "UNPAID",
     "paymentId": null,
     "totalAmount": 1999.99,
@@ -770,7 +770,7 @@ GET /v1/api/order/customer/abc123def456
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": [
     {
@@ -778,7 +778,7 @@ GET /v1/api/order/customer/abc123def456
       "orderNumber": "ORD-001",
       "customerId": "abc123def456",
       "orderDate": "2026-04-29T12:00:00",
-      "status": "PENDING",
+      "orderStatus": "PENDING",
       "paymentStatus": "UNPAID",
       "paymentId": null,
       "totalAmount": 2499.99,
@@ -794,19 +794,19 @@ GET /v1/api/order/customer/abc123def456
 ---
 
 #### 4.7 Get Orders By Status
-**Endpoint:** `GET /order/status/{status}`
+**Endpoint:** `GET /order/orderStatus/{orderStatus}`
 
-**Description:** Mengambil semua order berdasarkan status
+**Description:** Mengambil semua order berdasarkan orderStatus
 
 **Request:**
 ```
-GET /v1/api/order/status/PENDING
+GET /v1/api/order/orderStatus/PENDING
 ```
 
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": [
     {
@@ -814,7 +814,7 @@ GET /v1/api/order/status/PENDING
       "orderNumber": "ORD-001",
       "customerId": "abc123def456",
       "orderDate": "2026-04-29T12:00:00",
-      "status": "PENDING",
+      "orderStatus": "PENDING",
       "paymentStatus": "UNPAID",
       "paymentId": null,
       "totalAmount": 2499.99,
@@ -844,7 +844,7 @@ GET /v1/api/order-details
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": [
     {
@@ -874,7 +874,7 @@ GET /v1/api/order-details/od001
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": {
     "id": "od001",
@@ -911,7 +911,7 @@ Content-Type: application/json
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": {
     "id": "od002",
@@ -948,7 +948,7 @@ Content-Type: application/json
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": {
     "id": "od001",
@@ -976,7 +976,7 @@ DELETE /v1/api/order-details/od002
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": {
     "id": "od002",
@@ -1004,7 +1004,7 @@ GET /v1/api/order-details/order/ord001
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": [
     {
@@ -1042,7 +1042,7 @@ GET /v1/api/order-details/product/prod001
 **Response (Success):**
 ```json
 {
-  "status": 200,
+  "orderStatus": 200,
   "message": "OK",
   "data": [
     {
@@ -1065,7 +1065,7 @@ Semua error response mengikuti format berikut:
 
 ```json
 {
-  "status": 404,
+  "orderStatus": 404,
   "message": "Not Found",
   "data": null
 }

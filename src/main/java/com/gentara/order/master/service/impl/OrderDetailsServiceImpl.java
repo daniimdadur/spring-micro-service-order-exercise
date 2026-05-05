@@ -1,6 +1,7 @@
 package com.gentara.order.master.service.impl;
 
 import com.gentara.order.master.model.entity.OrderDetailsEntity;
+import com.gentara.order.master.model.entity.ProductEntity;
 import com.gentara.order.master.model.request.OrderDetailsReq;
 import com.gentara.order.master.model.response.OrderDetailsRes;
 import com.gentara.order.master.repository.OrderDetailsRepo;
@@ -10,6 +11,7 @@ import com.gentara.order.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -84,7 +86,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
                 .collect(Collectors.toList());
     }
 
-    private OrderDetailsRes mapEntityToResponse(OrderDetailsEntity entity) {
+    protected OrderDetailsRes mapEntityToResponse(OrderDetailsEntity entity) {
         return OrderDetailsRes.builder()
                 .id(entity.getId())
                 .orderId(entity.getOrder() != null ? entity.getOrder().getId() : null)
@@ -95,23 +97,23 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
                 .build();
     }
 
-    private OrderDetailsEntity mapRequestToEntity(OrderDetailsReq req) {
+    protected OrderDetailsEntity mapRequestToEntity(OrderDetailsReq req) {
+        ProductEntity productEntity = serviceMapper.getProductEntity(req.getProductId());
+        BigDecimal subtotal = productEntity.getPrice().multiply(new BigDecimal(req.getQuantity()));
         return OrderDetailsEntity.builder()
                 .id(CommonUtil.getUUID())
                 .order(req.getOrderId() != null ? serviceMapper.getOrderEntity(req.getOrderId()) : null)
-                .product(req.getProductId() != null ? serviceMapper.getProductEntity(req.getProductId()) : null)
+                .product(productEntity)
                 .quantity(req.getQuantity())
-                .unitPrice(req.getUnitPrice())
-                .subtotal(req.getSubtotal())
+                .unitPrice(productEntity.getPrice())
+                .subtotal(subtotal)
                 .build();
     }
 
-    private OrderDetailsEntity mapRequestToEntity(OrderDetailsEntity entity, OrderDetailsReq req) {
+    protected OrderDetailsEntity mapRequestToEntity(OrderDetailsEntity entity, OrderDetailsReq req) {
         entity.setOrder(req.getOrderId() != null ? serviceMapper.getOrderEntity(req.getOrderId()) : null);
         entity.setProduct(req.getProductId() != null ? serviceMapper.getProductEntity(req.getProductId()) : null);
         entity.setQuantity(req.getQuantity());
-        entity.setUnitPrice(req.getUnitPrice());
-        entity.setSubtotal(req.getSubtotal());
         return entity;
     }
 }
