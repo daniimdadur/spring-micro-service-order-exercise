@@ -34,21 +34,21 @@ public class DataInitializer implements CommandLineRunner {
         // Initialize Customers (3 data)
         List<CustomerEntity> customers = List.of(
             CustomerEntity.builder()
-                .id(CommonUtil.getUUID())
+                .id("c1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6")
                 .name("John Doe")
                 .email("john.doe@example.com")
                 .phone("08123456789")
                 .address("Jl. Merdeka No. 1, Jakarta")
                 .build(),
             CustomerEntity.builder()
-                .id(CommonUtil.getUUID())
+                .id("c2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7")
                 .name("Jane Smith")
                 .email("jane.smith@example.com")
                 .phone("08234567890")
                 .address("Jl. Sudirman No. 50, Jakarta")
                 .build(),
             CustomerEntity.builder()
-                .id(CommonUtil.getUUID())
+                .id("c3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8")
                 .name("Michael Johnson")
                 .email("michael.j@example.com")
                 .phone("08345678901")
@@ -60,17 +60,17 @@ public class DataInitializer implements CommandLineRunner {
         // Initialize Categories (3 data)
         List<CategoryEntity> categories = List.of(
             CategoryEntity.builder()
-                .id(CommonUtil.getUUID())
+                .id("cat1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p")
                 .name("Electronics")
                 .description("Electronic items and gadgets")
                 .build(),
             CategoryEntity.builder()
-                .id(CommonUtil.getUUID())
+                .id("cat2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q")
                 .name("Clothing")
                 .description("Apparel and fashion items")
                 .build(),
             CategoryEntity.builder()
-                .id(CommonUtil.getUUID())
+                .id("cat3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r")
                 .name("Home & Kitchen")
                 .description("Home appliances and kitchen equipment")
                 .build()
@@ -81,7 +81,7 @@ public class DataInitializer implements CommandLineRunner {
         List<CategoryEntity> categoryList = categoryRepo.findAll();
         List<ProductEntity> products = List.of(
             ProductEntity.builder()
-                .id(CommonUtil.getUUID())
+                .id("prod1a2b3c4d5e6f7g8h9i0j1k2l3m4n5")
                 .name("Dell XPS 13")
                 .description("High performance laptop for professionals")
                 .price(new BigDecimal("1500.00"))
@@ -90,7 +90,7 @@ public class DataInitializer implements CommandLineRunner {
                 .category(categoryList.get(0))
                 .build(),
             ProductEntity.builder()
-                .id(CommonUtil.getUUID())
+                .id("prod2b3c4d5e6f7g8h9i0j1k2l3m4n5o6")
                 .name("iPhone 15 Pro")
                 .description("Latest Apple smartphone with A17 Pro chip")
                 .price(new BigDecimal("999.99"))
@@ -99,7 +99,7 @@ public class DataInitializer implements CommandLineRunner {
                 .category(categoryList.get(0))
                 .build(),
             ProductEntity.builder()
-                .id(CommonUtil.getUUID())
+                .id("prod3c4d5e6f7g8h9i0j1k2l3m4n5o6p7")
                 .name("Cotton T-Shirt")
                 .description("100% organic cotton comfortable t-shirt")
                 .price(new BigDecimal("29.99"))
@@ -114,7 +114,7 @@ public class DataInitializer implements CommandLineRunner {
         List<ProductEntity> productList = productRepo.findAll();
         List<OrderEntity> orders = List.of(
             OrderEntity.builder()
-                .id(CommonUtil.getUUID())
+                .id("ord1d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9")
                 .orderNumber("ORD-001")
                 .customer(customers.get(0))
                 .orderDate(LocalDateTime.now())
@@ -124,7 +124,7 @@ public class DataInitializer implements CommandLineRunner {
                 .paymentMethod(PaymentMethod.TRANSFER)
                 .build(),
             OrderEntity.builder()
-                .id(CommonUtil.getUUID())
+                .id("ord2e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0")
                 .orderNumber("ORD-002")
                 .customer(customers.get(1))
                 .orderDate(LocalDateTime.now())
@@ -136,7 +136,7 @@ public class DataInitializer implements CommandLineRunner {
                 .paidAt(LocalDateTime.now())
                 .build(),
             OrderEntity.builder()
-                .id(CommonUtil.getUUID())
+                .id("ord3f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1")
                 .orderNumber("ORD-003")
                 .customer(customers.get(2))
                 .orderDate(LocalDateTime.now())
@@ -154,7 +154,7 @@ public class DataInitializer implements CommandLineRunner {
         List<OrderEntity> orderList = orderRepo.findAll();
         List<OrderDetailsEntity> orderDetails = List.of(
             OrderDetailsEntity.builder()
-                .id(CommonUtil.getUUID())
+                .id("od1g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2")
                 .order(orderList.get(0))
                 .product(productList.get(0))
                 .quantity(1)
@@ -162,7 +162,7 @@ public class DataInitializer implements CommandLineRunner {
                 .subtotal(new BigDecimal("1500.00"))
                 .build(),
             OrderDetailsEntity.builder()
-                .id(CommonUtil.getUUID())
+                .id("od2h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3")
                 .order(orderList.get(1))
                 .product(productList.get(1))
                 .quantity(1)
@@ -170,7 +170,7 @@ public class DataInitializer implements CommandLineRunner {
                 .subtotal(new BigDecimal("999.99"))
                 .build(),
             OrderDetailsEntity.builder()
-                .id(CommonUtil.getUUID())
+                .id("od3i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4")
                 .order(orderList.get(2))
                 .product(productList.get(2))
                 .quantity(2)

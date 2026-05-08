@@ -24,10 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,24 +54,39 @@ public class OrderServiceImpl implements OrderService {
             throw new BadRequestException("Order must have at least one order detail");
         }
 
+        List<String> productIds = orderReq.getOrderDetails().stream()
+                .map(OrderDetailsReq::getProductId)
+                .toList();
+
+        Map<String, ProductEntity> productMap = productRepo.findAllById(productIds)
+                .stream()
+                .collect(Collectors.toMap(ProductEntity::getId, p -> p));
+
+        for (OrderDetailsReq detailReq : orderReq.getOrderDetails()) {
+            if (!productMap.containsKey(detailReq.getProductId())) {
+                throw new BadRequestException("Product not found: " + detailReq.getProductId());
+            }
+        }
+
         List<OrderDetailsEntity> orderDetailsEntities = new ArrayList<>();
         BigDecimal totalAmount = BigDecimal.ZERO;
 
         for (OrderDetailsReq detailReq : orderReq.getOrderDetails()) {
-            ProductEntity product = serviceMapper.getProductEntity(detailReq.getProductId());
+            ProductEntity product = productMap.get(detailReq.getProductId());
+            ProductEntity lockedProduct = serviceMapper.getProductEntityWithLock(product.getId());
 
-            if (product.getStock() < detailReq.getQuantity()) {
+            if (lockedProduct.getStock() < detailReq.getQuantity()) {
                 throw new BadRequestException("Insufficient stock for product: " + product.getName());
             }
-            product.setStock(product.getStock() - detailReq.getQuantity());
-            productRepo.save(product);
 
-            BigDecimal unitPrice = product.getPrice();
+            lockedProduct.setStock(lockedProduct.getStock() - detailReq.getQuantity());
+
+            BigDecimal unitPrice = lockedProduct.getPrice();
             BigDecimal subTotal = unitPrice.multiply(BigDecimal.valueOf(detailReq.getQuantity()));
 
             orderDetailsEntities.add(OrderDetailsEntity.builder()
                     .id(CommonUtil.getUUID())
-                    .product(product)
+                    .product(lockedProduct)
                     .quantity(detailReq.getQuantity())
                     .unitPrice(unitPrice)
                     .subtotal(subTotal)
@@ -82,6 +94,7 @@ public class OrderServiceImpl implements OrderService {
 
             totalAmount = totalAmount.add(subTotal);
         }
+        productRepo.saveAll(productMap.values());
 
         String orderId = CommonUtil.getUUID();
         OrderEntity orderEntity = OrderEntity.builder()
@@ -111,7 +124,8 @@ public class OrderServiceImpl implements OrderService {
         } catch (PaymentServiceException e) {
             savedOrder.setOrderStatus(OrderStatus.FAILED);
         }
-        return Optional.of(entityToRes(savedOrder));
+        OrderEntity finalOrder = orderRepo.save(savedOrder);
+        return Optional.of(entityToRes(finalOrder));
     }
 
     @Override
@@ -181,6 +195,7 @@ public class OrderServiceImpl implements OrderService {
                 .id(entity.getId())
                 .orderNumber(entity.getOrderNumber())
                 .customerId(entity.getCustomer() != null ? entity.getCustomer().getId() : null)
+                .customerName(entity.getCustomer() != null ? entity.getCustomer().getName() : null)
                 .orderDate(entity.getOrderDate())
                 .orderStatus(entity.getOrderStatus())
                 .paymentStatus(entity.getPaymentStatus())
@@ -193,58 +208,9 @@ public class OrderServiceImpl implements OrderService {
                 .build();
     }
 
-    private OrderEntity requestToEntity(OrderReq request) {
-        OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setId(CommonUtil.getUUID());
-        orderEntity.setOrderNumber("INV-" + CommonUtil.getUUID().substring(0, 8) + "-" + System.currentTimeMillis());
-        orderEntity.setCustomer(request.getCustomerId() != null ? serviceMapper.getCustomerEntity(request.getCustomerId()) : null);
-        orderEntity.setIdempotencyKey(CommonUtil.getUUID());
-        orderEntity.setOrderStatus(OrderStatus.PROCESSING);
-        orderEntity.setPaymentMethod(request.getPaymentMethod());
-
-        List<OrderDetailsEntity> orderDetailsEntities = this.toOrderDetailsEntity(request.getOrderDetails());
-        BigDecimal totalAmount = new BigDecimal("0");
-        for (OrderDetailsEntity orderDetails : orderDetailsEntities) {
-            totalAmount = totalAmount.add(orderDetails.getSubtotal());
-        }
-        try {
-            return orderRepo.save(orderEntity);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-//        return OrderEntity.builder()
-//                .id(CommonUtil.getUUID())
-//                .orderNumber("INV-" + CommonUtil.getUUID().substring(0, 8) + "-" + System.currentTimeMillis())
-//                .customer(request.getCustomerId() != null ? serviceMapper.getCustomerEntity(request.getCustomerId()) : null)
-//                .idempotencyKey(CommonUtil.getUUID())
-//                .totalAmount(totalAmount)
-//                .orderStatus(OrderStatus.PROCESSING)
-//                .paymentMethod(request.getPaymentMethod())
-//                .orderDetails(orderDetailsEntities)
-//                .build();
-    }
-
-    private OrderEntity requestToEntity(OrderEntity entity, OrderReq request) {
-        entity.setOrderNumber("INV-" + CommonUtil.getUUID().substring(0, 8) + "-" + System.currentTimeMillis());
-        entity.setCustomer(request.getCustomerId() != null ? serviceMapper.getCustomerEntity(request.getCustomerId()) : null);
-        entity.setOrderDate(request.getOrderDate());
-        entity.setOrderStatus(request.getOrderStatus());
-        entity.setPaymentStatus(request.getPaymentStatus());
-        entity.setTotalAmount(request.getTotalAmount());
-        entity.setPaymentMethod(request.getPaymentMethod());
-        entity.setPaidAt(request.getPaidAt());
-        return entity;
-    }
-
 
     private List<OrderDetailsRes> toOrderDetailsRes(List<OrderDetailsEntity> orderDetails) {
         if (orderDetails == null || orderDetails.isEmpty()) return Collections.emptyList();
         return orderDetails.stream().map(orderDetailsService::mapEntityToResponse).collect(Collectors.toList());
-    }
-
-    private List<OrderDetailsEntity> toOrderDetailsEntity(List<OrderDetailsReq> orderDetailsReq) {
-        if (orderDetailsReq == null || orderDetailsReq.isEmpty()) return Collections.emptyList();
-        return orderDetailsReq.stream().map(orderDetailsService::mapRequestToEntity).collect(Collectors.toList());
     }
 }

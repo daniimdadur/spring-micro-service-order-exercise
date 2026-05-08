@@ -91,6 +91,8 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
                 .id(entity.getId())
                 .orderId(entity.getOrder() != null ? entity.getOrder().getId() : null)
                 .productId(entity.getProduct() != null ? entity.getProduct().getId() : null)
+                .productName(entity.getProduct() != null ? entity.getProduct().getName() : null)
+                .productSku(entity.getProduct() != null ? entity.getProduct().getSku() : null)
                 .quantity(entity.getQuantity())
                 .unitPrice(entity.getUnitPrice())
                 .subtotal(entity.getSubtotal())

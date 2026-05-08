@@ -13,6 +13,4 @@ public class OrderDetailsReq {
     private String orderId;
     private String productId;
     private Integer quantity;
-    private BigDecimal unitPrice;
-    private BigDecimal subtotal;
 }

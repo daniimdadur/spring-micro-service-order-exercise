@@ -13,6 +13,8 @@ public class OrderDetailsRes {
     private String id;
     private String orderId;
     private String productId;
+    private String productName;
+    private String productSku;
     private Integer quantity;
     private BigDecimal unitPrice;
     private BigDecimal subtotal;

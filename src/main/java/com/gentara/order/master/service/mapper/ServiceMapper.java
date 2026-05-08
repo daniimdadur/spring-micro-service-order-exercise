@@ -8,6 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Component
 @RequiredArgsConstructor
 public class ServiceMapper {
@@ -72,5 +76,10 @@ public class ServiceMapper {
     public ProductEntity getProductEntityByName(String name) {
         return productRepo.findByName(name)
                 .orElseThrow(() -> new NotFoundException(String.format("product with name %s not found", name)));
+    }
+
+    public ProductEntity getProductEntityWithLock(String id) {
+        return productRepo.findByIdWithLock(id)
+                .orElseThrow(() -> new NotFoundException(String.format("product with id %s not found", id)));
     }
 }

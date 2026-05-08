@@ -16,21 +16,6 @@ import java.util.List;
 @Builder
 public class OrderReq {
     private String customerId;
-    private LocalDateTime orderDate;
-    private OrderStatus orderStatus;
-    private PaymentStatus paymentStatus;
-    private BigDecimal totalAmount;
     private PaymentMethod paymentMethod;
-    private LocalDateTime paidAt;
     private List<OrderDetailsReq> orderDetails;
-
-    public OrderReq(String customerId, LocalDateTime orderDate, OrderStatus orderStatus, PaymentStatus paymentStatus, BigDecimal totalAmount, PaymentMethod paymentMethod, LocalDateTime paidAt) {
-        this.customerId = customerId;
-        this.orderDate = orderDate;
-        this.orderStatus = orderStatus;
-        this.paymentStatus = paymentStatus;
-        this.totalAmount = totalAmount;
-        this.paymentMethod = paymentMethod;
-        this.paidAt = paidAt;
-    }
 }
