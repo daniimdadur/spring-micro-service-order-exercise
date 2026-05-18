@@ -9,8 +9,10 @@ import com.gentara.order.master.model.entity.OrderEntity;
 import com.gentara.order.master.model.entity.ProductEntity;
 import com.gentara.order.master.model.request.OrderDetailsReq;
 import com.gentara.order.master.model.request.OrderReq;
+import com.gentara.order.master.model.request.PaymentCallbackReq;
 import com.gentara.order.master.model.response.OrderDetailsRes;
 import com.gentara.order.master.model.response.OrderRes;
+import com.gentara.order.master.model.response.PaymentCallbackRes;
 import com.gentara.order.master.model.response.PaymentRes;
 import com.gentara.order.master.repository.OrderRepo;
 import com.gentara.order.master.repository.ProductRepo;
@@ -190,6 +192,22 @@ public class OrderServiceImpl implements OrderService {
         try {
             this.orderRepo.save(entity);
             return Optional.of(entityToRes(entity));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Optional<PaymentCallbackRes> paymentCallback(PaymentCallbackReq request) {
+        OrderEntity orderEntity = this.serviceMapper.getOrderWithOrderNumber(request.getOrderNumber());
+        orderEntity.setPaymentStatus(request.getPaymentStatus());
+        orderEntity.setPaidAt(request.getPaidAt());
+        orderEntity.setExpiredAt(null);
+
+        try {
+            this.orderRepo.save(orderEntity);
+            return Optional.of(PaymentCallbackRes.builder()
+                            .message("payment success").build());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

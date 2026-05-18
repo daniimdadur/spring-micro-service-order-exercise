@@ -3,7 +3,9 @@ package com.gentara.order.master.service;
 import com.gentara.order.enums.OrderStatus;
 import com.gentara.order.enums.PaymentStatus;
 import com.gentara.order.master.model.request.OrderReq;
+import com.gentara.order.master.model.request.PaymentCallbackReq;
 import com.gentara.order.master.model.response.OrderRes;
+import com.gentara.order.master.model.response.PaymentCallbackRes;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,5 +20,5 @@ public interface OrderService {
     List<OrderRes> getOrdersByPaymentStatus(PaymentStatus paymentStatus);
     Optional<OrderRes> updateStatus(String id, OrderStatus orderStatus);
     Optional<OrderRes> cancelOrder(String id);
-
+    Optional<PaymentCallbackRes> paymentCallback(PaymentCallbackReq request);
 }

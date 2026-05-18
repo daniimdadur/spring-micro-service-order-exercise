@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface OrderRepo extends JpaRepository<@NonNull OrderEntity, @NonNull String> {
     Optional<OrderEntity> findByIdempotencyKey(String idempotencyKey);
+    Optional<OrderEntity> findByOrderNumber(String orderNumber);
 }

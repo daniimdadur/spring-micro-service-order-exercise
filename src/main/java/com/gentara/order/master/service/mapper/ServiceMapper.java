@@ -87,4 +87,9 @@ public class ServiceMapper {
         return orderRepo.findByIdempotencyKey(idempotencyKey)
                 .orElseThrow(() -> new NotFoundException(String.format("order with idempotency key %s not found", idempotencyKey)));
     }
+
+    public OrderEntity getOrderWithOrderNumber(String orderNumber) {
+        return orderRepo.findByOrderNumber(orderNumber)
+                .orElseThrow(() -> new NotFoundException(String.format("order with order number %s not found", orderNumber)));
+    }
 }
