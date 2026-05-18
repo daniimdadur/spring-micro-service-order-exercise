@@ -82,4 +82,9 @@ public class ServiceMapper {
         return productRepo.findByIdWithLock(id)
                 .orElseThrow(() -> new NotFoundException(String.format("product with id %s not found", id)));
     }
+
+    public OrderEntity getOrderWithIdempotencyKey(String idempotencyKey) {
+        return orderRepo.findByIdempotencyKey(idempotencyKey)
+                .orElseThrow(() -> new NotFoundException(String.format("order with idempotency key %s not found", idempotencyKey)));
+    }
 }

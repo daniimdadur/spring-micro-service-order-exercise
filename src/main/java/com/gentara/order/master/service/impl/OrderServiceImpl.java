@@ -49,7 +49,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Optional<OrderRes> create(OrderReq orderReq) {
+    public Optional<OrderRes> create(OrderReq orderReq, String idempotencyKey) {
+        Optional<OrderEntity> existing = this.orderRepo.findByIdempotencyKey(idempotencyKey);
+        if (existing.isPresent()) {
+            return Optional.of(entityToRes(existing.get()));
+        }
+
         if (orderReq.getOrderDetails() == null || orderReq.getOrderDetails().isEmpty()) {
             throw new BadRequestException("Order must have at least one order detail");
         }
@@ -101,7 +106,7 @@ public class OrderServiceImpl implements OrderService {
                 .id(orderId)
                 .orderNumber("INV-" + orderId.substring(0, 8).toUpperCase())
                 .customer(orderReq.getCustomerId() != null ? serviceMapper.getCustomerEntity(orderReq.getCustomerId()) : null)
-                .idempotencyKey(CommonUtil.getUUID())
+                .idempotencyKey(idempotencyKey)
                 .orderStatus(OrderStatus.PROCESSING)
                 .paymentMethod(orderReq.getPaymentMethod())
                 .orderDate(LocalDateTime.now())

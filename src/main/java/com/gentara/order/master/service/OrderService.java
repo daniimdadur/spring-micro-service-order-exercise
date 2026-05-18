@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface OrderService {
     List<OrderRes> getAll();
     Optional<OrderRes> getById(String id);
-    Optional<OrderRes> create(OrderReq orderReq);
+    Optional<OrderRes> create(OrderReq orderReq, String idempotencyKey);
     Optional<OrderRes> delete(String id);
     List<OrderRes> getOrdersByCustomerId(String customerId);
     List<OrderRes> getOrdersByStatus(OrderStatus orderStatus);

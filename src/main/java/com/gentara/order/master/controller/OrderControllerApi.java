@@ -7,6 +7,7 @@ import com.gentara.order.enums.PaymentStatus;
 import com.gentara.order.master.model.request.OrderReq;
 import com.gentara.order.master.model.response.OrderRes;
 import com.gentara.order.master.service.OrderService;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +29,17 @@ public class OrderControllerApi extends BaseController<OrderRes> {
     }
 
     @PostMapping
-    public ResponseEntity<Response> create(@RequestBody OrderReq orderReq) {
-        return super.getResponse(orderService.create(orderReq));
+    public ResponseEntity<Response> create(
+            @Parameter(
+                    description = "Order Request",
+                    required = true,
+                    example = "i1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6"
+            )
+            @RequestHeader(value = "Idempotency-Key")
+            String idempotencyKey,
+            @RequestBody OrderReq orderReq
+    ) {
+        return super.getResponse(orderService.create(orderReq, idempotencyKey));
     }
 
     @DeleteMapping("/{id}")
